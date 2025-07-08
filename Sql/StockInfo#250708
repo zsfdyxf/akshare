@@ -1,0 +1,14 @@
+select *
+from c
+where stock_name like '%比亚迪%'
+
+select count (*)
+from stock_info
+
+select distinct industry
+from stock_info
+
+select total_market_cap/100000000 SZ, float_market_cap/100000000 szlt, *
+from stock_info
+where industry like '%医药商业%'
+

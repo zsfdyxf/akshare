@@ -1,0 +1,6 @@
+DELETE FROM stock_info
+WHERE rowid NOT IN (
+    SELECT MIN(rowid)
+    FROM stock_info
+    GROUP BY stock_code
+);
