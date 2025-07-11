@@ -1,0 +1,7 @@
+DELETE FROM stock_data
+WHERE ROWID NOT IN (
+    SELECT MIN(ROWID)
+    FROM stock_data
+    GROUP BY date, stock_code
+);
+

@@ -11,15 +11,15 @@ from tqdm import tqdm  # 进度条工具
 # print(df)  # 筛选SPDR黄金ETF
 
 # 1.-ETF 获取数据 518880 黄金ETF
-# df = ak.fund_etf_hist_em(symbol="518880", period="daily")
-# # 处理日期列（根据实际列名调整）
-# df["日期"] = pd.to_datetime(df["日期"])
-# # 筛选时间段
-# filtered_df = df[(df["日期"] >= "2024-01-01") & (df["日期"] <= "2024-12-31")]
-# # 在第2列位置插入股票代码列（列索引从0开始）
-# filtered_df.insert(1, "股票代码", "518880")  # 1表示第2列
-# # 保存到CSV（可选）
-# filtered_df.to_csv("gold_etf_20240101-20241231.csv", index=False)
+df = ak.fund_etf_hist_em(symbol="518880", period="daily")
+# 处理日期列（根据实际列名调整）
+df["日期"] = pd.to_datetime(df["日期"])
+# 筛选时间段
+filtered_df = df[(df["日期"] >= "2024-01-01") & (df["日期"] <= "2024-12-31")]
+# 在第2列位置插入股票代码列（列索引从0开始）
+filtered_df.insert(1, "股票代码", "518880")  # 1表示第2列
+# 保存到CSV（可选）
+filtered_df.to_csv("gold_etf_20240101-20241231.csv", index=False)
 
 
 # 2.- 获取所有股票列表

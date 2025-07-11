@@ -1,0 +1,277 @@
+
+
+
+-- 保留最新
+delete from CarListFanWei
+where substr(policyno,1,1) not in ('P');
+-- 保留最新
+delete from GeFeiListFanWei
+where substr(policyno,1,1) not in ('P');
+-- 保留最新
+delete from ShangTuanListFanWei
+where substr(policyno,1,1) not in ('P');
+
+
+
+
+-- 保留最新
+delete from CarListFanWei
+where rowid not in 
+(
+select max(rowid)
+from CarListFanWei
+group by policyno
+);
+
+
+
+
+delete from GeFeiListFanWei
+where rowid not in 
+(
+select max(rowid)
+from GeFeiListFanWei
+group by policyno
+);
+
+
+
+delete from ShangTuanListFanWei
+where rowid not in 
+(
+select max(rowid)
+from ShangTuanListFanWei
+group by policyno
+);
+
+
+
+
+-- 更新统一机构名称
+update CarListFanWei
+set teamtypepe = 
+(case
+when comname like '%开发区%助贷险%' then '13081400'
+when comname like '%双桥%' then '13080100'
+when comname like '%双滦%' then '13080300'
+when comname like '%营子%' then '13080400'
+when comname like '%国际部%' then '13080600'
+when comname like '%开发区%' then '13081300'
+when comname like '%承德支%' then '13082100'
+when comname like '%兴隆%' then '13082200'
+when comname like '%平泉%' then '13082300'
+when comname like '%滦平%' then '13082400'
+when comname like '%隆化%' then '13082500'
+when comname like '%丰宁%' then '13082600'
+when comname like '%宽城%' then '13082700'
+when comname like '%围场%' then '13082800'
+when comname like '%续保%' then '13081100'
+else comname end)
+
+where substr(teamtypepe,1,1) not in ('1');
+
+
+-- 更新日期格式
+update CarListFanWei
+set startdate = (
+case 
+-- '2024/2/7 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) = '' or substr(startdate,9,1) = ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-0' || substr(startdate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) != '' and substr(startdate,9,1) != ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-' || substr(startdate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) = '' or substr(startdate,10,1) = ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-0' || substr(startdate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) != '' or substr(startdate,10,1) != ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-' || substr(startdate,9,10) 
+
+else date(startdate) end
+)
+where substr(startdate,5,1) = '/';
+
+update CarListFanWei
+set underwriteenddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) = '' or substr(underwriteenddate,9,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-0' || substr(underwriteenddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) != '' and substr(underwriteenddate,9,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-' || substr(underwriteenddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) = '' or substr(underwriteenddate,10,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-0' || substr(underwriteenddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) != '' or substr(underwriteenddate,10,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-' || substr(underwriteenddate,9,10) 
+else datetime(underwriteenddate) end
+)
+where substr(underwriteenddate,5,1) = '/';
+
+update CarListFanWei
+set enddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) = '' or substr(enddate,9,1) = ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-0' || substr(enddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) != '' and substr(enddate,9,1) != ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-' || substr(enddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) = '' or substr(enddate,10,1) = ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-0' || substr(enddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) != '' or substr(enddate,10,1) != ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-' || substr(enddate,9,10) 
+else datetime(enddate) end
+)
+where substr(enddate,5,1) = '/';
+
+
+update GeFeiListFanWei
+set startdate = (
+case 
+-- '2024/2/7 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) = '' or substr(startdate,9,1) = ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-0' || substr(startdate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) != '' and substr(startdate,9,1) != ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-' || substr(startdate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) = '' or substr(startdate,10,1) = ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-0' || substr(startdate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) != '' or substr(startdate,10,1) != ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-' || substr(startdate,9,10) 
+
+else date(startdate) end
+)
+where substr(startdate,5,1) = '/';
+
+update GeFeiListFanWei
+set underwriteenddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) = '' or substr(underwriteenddate,9,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-0' || substr(underwriteenddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) != '' and substr(underwriteenddate,9,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-' || substr(underwriteenddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) = '' or substr(underwriteenddate,10,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-0' || substr(underwriteenddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) != '' or substr(underwriteenddate,10,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-' || substr(underwriteenddate,9,10) 
+else datetime(underwriteenddate) end
+)
+where substr(underwriteenddate,5,1) = '/';
+
+update GeFeiListFanWei
+set enddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) = '' or substr(enddate,9,1) = ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-0' || substr(enddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) != '' and substr(enddate,9,1) != ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-' || substr(enddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) = '' or substr(enddate,10,1) = ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-0' || substr(enddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) != '' or substr(enddate,10,1) != ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-' || substr(enddate,9,10) 
+else datetime(enddate) end
+)
+where substr(enddate,5,1) = '/';
+
+
+
+update ShangTuanListFanWei
+set startdate = (
+case 
+-- '2024/2/7 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) = '' or substr(startdate,9,1) = ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-0' || substr(startdate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(startdate,7,1) = '/' and (substr(startdate,9,1) != '' and substr(startdate,9,1) != ' ') 
+then substr(startdate,1,4) || '-0' || substr(startdate,6,1) || '-' || substr(startdate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) = '' or substr(startdate,10,1) = ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-0' || substr(startdate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(startdate,8,1) = '/' and (substr(startdate,10,1) != '' or substr(startdate,10,1) != ' ') 
+then substr(startdate,1,4) || '-' || substr(startdate,6,2) || '-' || substr(startdate,9,10) 
+
+else date(startdate) end
+)
+where substr(startdate,5,1) = '/';
+
+update ShangTuanListFanWei
+set underwriteenddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) = '' or substr(underwriteenddate,9,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-0' || substr(underwriteenddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(underwriteenddate,7,1) = '/' and (substr(underwriteenddate,9,1) != '' and substr(underwriteenddate,9,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-0' || substr(underwriteenddate,6,1) || '-' || substr(underwriteenddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) = '' or substr(underwriteenddate,10,1) = ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-0' || substr(underwriteenddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(underwriteenddate,8,1) = '/' and (substr(underwriteenddate,10,1) != '' or substr(underwriteenddate,10,1) != ' ') 
+then substr(underwriteenddate,1,4) || '-' || substr(underwriteenddate,6,2) || '-' || substr(underwriteenddate,9,10) 
+else datetime(underwriteenddate) end
+)
+where substr(underwriteenddate,5,1) = '/';
+
+update ShangTuanListFanWei
+set enddate = (
+case 
+-- '2024/2/7 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) = '' or substr(enddate,9,1) = ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-0' || substr(enddate,8,10) 
+
+-- '2024/2/17 0:00'
+when substr(enddate,7,1) = '/' and (substr(enddate,9,1) != '' and substr(enddate,9,1) != ' ') 
+then substr(enddate,1,4) || '-0' || substr(enddate,6,1) || '-' || substr(enddate,8,10) 
+
+-- '2024/12/7 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) = '' or substr(enddate,10,1) = ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-0' || substr(enddate,9,10) 
+
+-- '2024/12/17 0:00'
+when substr(enddate,8,1) = '/' and (substr(enddate,10,1) != '' or substr(enddate,10,1) != ' ') 
+then substr(enddate,1,4) || '-' || substr(enddate,6,2) || '-' || substr(enddate,9,10) 
+else datetime(enddate) end
+)
+where substr(enddate,5,1) = '/';
