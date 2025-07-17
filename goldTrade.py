@@ -3,6 +3,7 @@ import pandas as pd
 import time
 import inspect
 from datetime import datetime, timedelta
+import yfinance as yf
 
 # 时间范围设置（建议单次不超过1年）
 start_date = "2024-01-01"
@@ -64,23 +65,55 @@ def clean_data(df):
     df = df.set_index('日期').resample('M').interpolate().reset_index()
     return df
 
+# 获取VIX指数历史数据
+def get_vix_data(start_date='2010-01-01', end_date='2023-12-31'):
+    vix_data = ak.vix_index_hist(start_date=start_date, end_date=end_date)
+    return vix_data
+
+
+
 
 import yfinance as yf
 
-# 获取VIX指数数据
-vix = yf.Ticker("^VIX")
+# 获取VIX指数的历史数据
+def get_vix_data_yf(start_date='2025-01-01', end_date='2025-06-30'):
+    vix = yf.Ticker("^VIX")
+    vix_data = vix.history(start=start_date, end=end_date)
+    return vix_data
 
-# 获取VIX的历史数据
-vix_data = vix.history(period="1mo")  # 获取最近一个月的数据
+# 示例：获取2010年到2023年VIX数据
+vix_data = get_vix_data_yf()
+print(vix_data.head())
 
-# 显示数据
-print(vix_data)
+
+
+
+# 示例：获取2010年到2023年VIX数据
+
+
+# stock_xgsglb_em_df = ak.stock_xgsglb_em(symbol="北交所")
+# print(stock_xgsglb_em_df)
+
+
+
+
+
+# # 获取VIX指数数据
+# vix = yf.Ticker("^VIX")
+
+# # 获取VIX的历史数据
+# vix_data = vix.history(period="1mo")  # 获取最近一个月的数据
+
+# # 显示数据
+# print(vix_data)
+
+
 
 # macro_info_ws_df = ak.macro_info_ws(date="20250716")
 # print(macro_info_ws_df)
 
 # 获取函数签名
-# sig = inspect.signature(ak.macro_cons_gold)
+# sig = inspect.signature(ak.stock_xgsglb_em)
 # print("函数参数：")
 # for name, param in sig.parameters.items():
 #     print(f"{name}: {param.default if param.default != param.empty else '无默认值'}")
