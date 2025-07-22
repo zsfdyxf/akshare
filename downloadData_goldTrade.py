@@ -89,11 +89,10 @@ import yfinance as yf
 # # 显示数据
 # print(df)
 
-
+# 11.-私募机构信息
 amac_member_info_df = ak.amac_member_info()
 # print(amac_member_info_df)
 amac_member_info_df.to_excel("./DataInput_VixData/gold_etf_2024.xlsx", index=False)
-    
 
 
 
