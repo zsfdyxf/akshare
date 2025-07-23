@@ -5,21 +5,24 @@ import pandas as pd
 from tqdm import tqdm  # 进度条工具
 
 
+
+raw_data = ak.stock_us_daily();
+.stock_us_info(symbol=code)
 # 获取全球最大黄金ETF-SPDR持仓数据
 # df = ak.macro_china_fx_gold()
 # df = ak.macro_cons_gold()
 # print(df)  # 筛选SPDR黄金ETF
 
-# 1.-ETF 获取数据 518880 黄金ETF
-df = ak.fund_etf_hist_em(symbol="518880", period="daily")
-# 处理日期列（根据实际列名调整）
-df["日期"] = pd.to_datetime(df["日期"])
-# 筛选时间段
-filtered_df = df[(df["日期"] >= "2024-01-01") & (df["日期"] <= "2024-12-31")]
-# 在第2列位置插入股票代码列（列索引从0开始）
-filtered_df.insert(1, "股票代码", "518880")  # 1表示第2列
-# 保存到CSV（可选）
-filtered_df.to_csv("gold_etf_20240101-20241231.csv", index=False)
+# # 1.-ETF 获取数据 518880 黄金ETF
+# df = ak.fund_etf_hist_em(symbol="518880", period="daily")
+# # 处理日期列（根据实际列名调整）
+# df["日期"] = pd.to_datetime(df["日期"])
+# # 筛选时间段
+# filtered_df = df[(df["日期"] >= "2024-01-01") & (df["日期"] <= "2024-12-31")]
+# # 在第2列位置插入股票代码列（列索引从0开始）
+# filtered_df.insert(1, "股票代码", "518880")  # 1表示第2列
+# # 保存到CSV（可选）
+# filtered_df.to_csv("gold_etf_20240101-20241231.csv", index=False)
 
 
 # 2.- 获取所有股票列表
@@ -39,9 +42,9 @@ filtered_df.to_csv("gold_etf_20240101-20241231.csv", index=False)
 
 # 3.- 详细信息
 
-# 以贵州茅台（600519）为例
-data = ak.stock_individual_info_em(symbol="600519")
-print("字段结构:\n", data)
+# # 以贵州茅台（600519）为例
+# data = ak.stock_individual_info_em(symbol="600519")
+# print("字段结构:\n", data)
 
 # # 获取基础股票列表（代码+名称）
 # stock_list = ak.stock_info_a_code_name()
@@ -77,7 +80,7 @@ print("字段结构:\n", data)
 
 
 
-print("股票列表已保存至 all_stocks_list.csv")
+# print("股票列表已保存至 all_stocks_list.csv")
 
 # 2.- 股票
 
